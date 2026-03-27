@@ -1,0 +1,42 @@
+<div class="overlay" *ngIf="cart.isOpen" (click)="cart.isOpen = false"></div>
+
+<div class="cart-drawer" [class.open]="cart.isOpen" (click)="$event.stopPropagation()">
+  <div class="cart-header">
+    <h3>Your Order</h3>
+    <button class="icon-btn" (click)="cart.isOpen = false">×</button>
+  </div>
+
+  <div class="cart-body">
+    <div class="cart-empty" *ngIf="cart.items.length === 0">
+      <div class="cart-empty-icon">☕</div>
+      <p>Your cart is empty</p>
+      <p class="cart-empty-sub">Customize a drink to get started</p>
+    </div>
+
+    <div class="cart-item" *ngFor="let ci of cart.items; trackBy: trackByCart">
+      <div class="cart-item-img">
+        <img [src]="ci.item.image" [alt]="ci.item.name" loading="lazy">
+      </div>
+      <div class="cart-item-info">
+        <p class="cart-item-name">{{ ci.item.name }}</p>
+        <p class="cart-item-meta">{{ ci.size | titlecase }} · {{ ci.milk }}</p>
+        <p class="cart-item-meta" *ngIf="ci.extras.length > 0">+ {{ extrasLabel(ci.extras) }}</p>
+        <p class="cart-item-price">${{ (ci.unitPrice * ci.quantity).toFixed(2) }}</p>
+      </div>
+      <div class="cart-item-qty">
+        <button (click)="decrement(ci)">−</button>
+        <span>{{ ci.quantity }}</span>
+        <button (click)="cart.update(ci, 1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-footer" *ngIf="cart.items.length > 0">
+    <div class="cart-total">
+      <span>Total</span>
+      <span class="cart-total-amount">${{ cart.total.toFixed(2) }}</span>
+    </div>
+    <button class="btn btn-full" (click)="checkout()">Place Order</button>
+    <button class="cart-clear" (click)="cart.clear()">Clear cart</button>
+  </div>
+</div>

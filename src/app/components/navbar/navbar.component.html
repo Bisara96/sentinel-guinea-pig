@@ -1,0 +1,24 @@
+<nav class="navbar">
+  <div class="container nav-content">
+    <a class="logo" (click)="scrollTo('hero')">Brew & Bean</a>
+    <ul class="nav-links">
+      <li><a (click)="scrollTo('about')">About</a></li>
+      <li><a (click)="scrollTo('menu')">Menu</a></li>
+      <li><a (click)="scrollTo('visit')">Visit</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button
+        class="icon-btn dark-toggle"
+        (click)="toggleDarkMode()"
+        [title]="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
+        <span *ngIf="darkMode">☀️</span>
+        <span *ngIf="!darkMode">🌙</span>
+      </button>
+      <button class="icon-btn cart-btn" (click)="cart.isOpen = true">
+        🛒
+        <span class="cart-badge" *ngIf="cart.count > 0">{{ cart.count }}</span>
+      </button>
+    </div>
+  </div>
+</nav>

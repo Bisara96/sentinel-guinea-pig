@@ -1,0 +1,39 @@
+<section class="testimonials">
+  <div class="container">
+    <p class="section-label center">Happy Customers</p>
+    <h2 class="section-title">What People Say</h2>
+
+    <div
+      class="carousel"
+      (mouseenter)="isHovered = true"
+      (mouseleave)="isHovered = false"
+    >
+      <button class="carousel-arrow" (click)="prev()">‹</button>
+
+      <div class="testimonial-card">
+        <div class="quote-icon">"</div>
+        <p class="quote-text">{{ active.quote }}</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar" [style.background]="active.avatarColor">
+            {{ active.initials }}
+          </div>
+          <div>
+            <p class="reviewer-name">{{ active.name }}</p>
+            <p class="reviewer-role">{{ active.role }}</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-arrow" (click)="next()">›</button>
+    </div>
+
+    <div class="dots">
+      <button
+        *ngFor="let t of testimonials; let i = index"
+        class="dot"
+        [class.active]="i === activeIndex"
+        (click)="goTo(i)"
+      ></button>
+    </div>
+  </div>
+</section>

@@ -1,14 +1,11 @@
-<!-- Navbar -->
-<nav class="navbar">
-  <div class="container nav-content">
-    <a class="logo" (click)="scrollTo('hero')">Brew & Bean</a>
-    <ul class="nav-links">
-      <li><a (click)="scrollTo('about')">About</a></li>
-      <li><a (click)="scrollTo('menu')">Menu</a></li>
-      <li><a (click)="scrollTo('visit')">Visit</a></li>
-    </ul>
-  </div>
-</nav>
+<app-toast-container></app-toast-container>
+<app-navbar></app-navbar>
+<app-cart-drawer></app-cart-drawer>
+<app-customizer-modal
+  [item]="customizerItem"
+  [isOpen]="customizerOpen"
+  (closed)="customizerOpen = false"
+></app-customizer-modal>
 
 <!-- Hero -->
 <section id="hero" class="hero">
@@ -17,7 +14,7 @@
     <p class="hero-tagline">Est. 2024</p>
     <h1>Coffee crafted<br>with intention</h1>
     <p class="hero-subtitle">Specialty beans, roasted locally, brewed with care.</p>
-    <a class="btn" (click)="scrollTo('menu')">Explore the Menu</a>
+    <a class="btn" (click)="scrollToMenu()">Explore the Menu</a>
   </div>
 </section>
 
@@ -43,27 +40,62 @@
   </div>
 </section>
 
+<!-- Stats -->
+<section id="stats" class="stats">
+  <div class="container stats-grid">
+    <div class="stat-item" *ngFor="let stat of stats; trackBy: trackByStat">
+      <span class="stat-icon">{{ stat.icon }}</span>
+      <span class="stat-number">{{ stat.current }}{{ stat.suffix }}</span>
+      <span class="stat-label">{{ stat.label }}</span>
+    </div>
+  </div>
+</section>
+
 <!-- Menu -->
 <section id="menu" class="menu">
   <div class="container">
     <p class="section-label center">What We Serve</p>
     <h2 class="section-title">Our Menu</h2>
-    <div class="menu-grid">
-      <div class="menu-card" *ngFor="let item of menuItems">
-        <div class="menu-card-image">
-          <img [src]="item.image" [alt]="item.name" loading="lazy">
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-header">
-            <h3>{{ item.name }}</h3>
-            <span class="price">{{ item.price }}</span>
-          </div>
-          <p>{{ item.description }}</p>
-        </div>
+
+    <div class="menu-controls">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          placeholder="Search drinks..."
+          class="search-input"
+        >
       </div>
+      <div class="category-filter">
+        <button
+          *ngFor="let cat of categories"
+          class="cat-btn"
+          [class.active]="activeCategory === cat.key"
+          (click)="setCategory(cat.key)"
+        >{{ cat.label }}</button>
+      </div>
+    </div>
+
+    <div class="menu-empty" *ngIf="filteredMenuItems.length === 0">
+      <p>No drinks found for "<strong>{{ searchQuery }}</strong>"</p>
+    </div>
+
+    <div class="menu-grid" *ngIf="filteredMenuItems.length > 0">
+      <app-menu-card
+        *ngFor="let item of filteredMenuItems; trackBy: trackByName"
+        [item]="item"
+        (customize)="openCustomizer($event)"
+      ></app-menu-card>
     </div>
   </div>
 </section>
+
+<!-- Testimonials -->
+<app-testimonials></app-testimonials>
+
+<!-- Newsletter -->
+<app-newsletter></app-newsletter>
 
 <!-- Visit -->
 <section id="visit" class="visit">

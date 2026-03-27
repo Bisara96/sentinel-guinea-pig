@@ -1,0 +1,35 @@
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-inner">
+      <div class="newsletter-text">
+        <p class="section-label">Stay Connected</p>
+        <h2>Join the inner circle</h2>
+        <p>New roasts, seasonal drinks, and early access to events — straight to your inbox. No spam, ever.</p>
+      </div>
+
+      <div class="newsletter-form-wrap">
+        <ng-container *ngIf="!submitted">
+          <div class="input-row">
+            <input
+              type="email"
+              [(ngModel)]="email"
+              placeholder="your@email.com"
+              class="email-input"
+              (keydown.enter)="submit()"
+              [class.invalid]="error"
+            >
+            <button class="btn" (click)="submit()">Subscribe</button>
+          </div>
+          <p class="form-error" *ngIf="error">{{ error }}</p>
+        </ng-container>
+
+        <div class="success-state" *ngIf="submitted">
+          <div class="success-check">✓</div>
+          <p class="success-msg">You're on the list!</p>
+          <p class="success-sub">We'll be in touch soon.</p>
+          <button class="subscribe-again" (click)="reset()">Add another email</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+<div class="menu-card">
+  <div class="menu-card-image">
+    <img [src]="item.image" [alt]="item.name" loading="lazy">
+    <span class="menu-badge">{{ item.category }}</span>
+  </div>
+  <div class="menu-card-body">
+    <div class="menu-card-header">
+      <h3>{{ item.name }}</h3>
+      <span class="price">{{ item.price }}</span>
+    </div>
+    <p class="menu-card-desc">{{ item.description }}</p>
+
+    <div class="rating-row">
+      <div class="stars" (mouseleave)="hoverRating = 0">
+        <span
+          *ngFor="let star of starRange"
+          class="star"
+          [class.filled]="isStarFilled(star)"
+          (mouseenter)="hoverRating = star"
+          (click)="rate(star)"
+        >★</span>
+      </div>
+      <span class="rating-count" *ngIf="ratingCount > 0">({{ ratingCount }})</span>
+      <span class="rating-count muted" *ngIf="ratingCount === 0">Rate this</span>
+    </div>
+
+    <button class="btn-add" (click)="customize.emit(item)">Customize & Add</button>
+  </div>
+</div>

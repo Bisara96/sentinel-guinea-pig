@@ -1,0 +1,63 @@
+<ng-container *ngIf="isOpen && item">
+  <div class="overlay overlay--modal" (click)="close()"></div>
+
+  <div class="customizer-modal" (click)="$event.stopPropagation()">
+    <button class="modal-close icon-btn" (click)="close()">×</button>
+
+    <div class="customizer-header">
+      <img [src]="item!.image" [alt]="item!.name" class="customizer-img">
+      <div>
+        <h3>{{ item!.name }}</h3>
+        <p class="customizer-desc">{{ item!.description }}</p>
+      </div>
+    </div>
+
+    <div class="customizer-section">
+      <p class="customizer-label">Size</p>
+      <div class="customizer-options">
+        <button
+          *ngFor="let s of sizes"
+          class="option-btn"
+          [class.active]="size === s.key"
+          (click)="size = s.key"
+        >
+          {{ s.label }}
+          <small *ngIf="s.modifier !== 0">{{ s.modifier > 0 ? '+' : '' }}${{ s.modifier.toFixed(2) }}</small>
+        </button>
+      </div>
+    </div>
+
+    <div class="customizer-section">
+      <p class="customizer-label">Milk</p>
+      <div class="customizer-options">
+        <button
+          *ngFor="let m of milkOptions"
+          class="option-btn"
+          [class.active]="milk === m"
+          (click)="milk = m"
+        >{{ m }}</button>
+      </div>
+    </div>
+
+    <div class="customizer-section">
+      <p class="customizer-label">Extras</p>
+      <div class="customizer-options">
+        <button
+          *ngFor="let e of extrasOptions"
+          class="option-btn option-btn--wide"
+          [class.active]="isExtraSelected(e.label)"
+          (click)="toggleExtra(e.label)"
+        >
+          {{ e.label }} <small>+${{ e.price.toFixed(2) }}</small>
+        </button>
+      </div>
+    </div>
+
+    <div class="customizer-footer">
+      <div class="customizer-price">
+        Total <strong>${{ price.toFixed(2) }}</strong>
+      </div>
+      <button class="btn" (click)="addToCart()">Add to Cart</button>
+    </div>
+  </div>
+</ng-container>

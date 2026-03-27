@@ -1,0 +1,132 @@
+.testimonials {
+  padding: 100px 0;
+  background: var(--color-bg);
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.carousel-arrow {
+  background: none;
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  line-height: 1;
+
+  &:hover {
+    border-color: var(--color-warm);
+    color: var(--color-warm);
+    background: var(--color-cream);
+  }
+}
+
+.testimonial-card {
+  flex: 1;
+  background: var(--color-cream);
+  border-radius: 20px;
+  padding: 40px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: fadeSlide 0.4s ease;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.quote-icon {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--color-warm);
+  opacity: 0.4;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.quote-text {
+  font-size: 1.05rem;
+  color: var(--color-text);
+  line-height: 1.75;
+  font-style: italic;
+  flex: 1;
+  margin-bottom: 28px;
+}
+
+.reviewer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.reviewer-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  flex-shrink: 0;
+}
+
+.reviewer-name {
+  font-weight: 600;
+  color: var(--color-dark);
+  font-size: 0.95rem;
+}
+
+.reviewer-role {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-top: 2px;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-border);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+
+  &.active {
+    background: var(--color-warm);
+    width: 24px;
+    border-radius: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel { gap: 12px; }
+  .testimonial-card { padding: 28px 24px; }
+  .carousel-arrow { width: 40px; height: 40px; font-size: 1.3rem; }
+}
