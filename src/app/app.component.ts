@@ -16,7 +16,6 @@ export class AppComponent {
   ];
 
   scrollTo(sectionId: string): void {
-    throw new Error('New error for sentry');
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 }
