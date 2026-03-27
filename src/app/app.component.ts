@@ -15,6 +15,26 @@ interface StatCounter {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
+  customizerItem: MenuItem | null = null;
+  customizerOpen = false;
+  statsAnimated = false;
+  statsObserver: IntersectionObserver | null = null;
+  stats: StatCounter[] = [
+    { label: 'Cups Served Daily', icon: '☕', target: 500, current: 0, suffix: '+' },
+    { label: 'Bean Origins', icon: '🌍', target: 12, current: 0, suffix: '' },
+    { label: 'Years Roasting', icon: '🔥', target: 8, current: 0, suffix: '' },
+    { label: 'Happy Regulars', icon: '😊', target: 2000, current: 0, suffix: '+' },
+  ];
+
+  searchQuery = '';
+  activeCategory = 'all';
+  categories = [
+    { key: 'all', label: 'All' },
+    { key: 'hot', label: 'Hot' },
+    { key: 'cold', label: 'Cold' },
+    { key: 'specialty', label: 'Specialty' },
+  ];
+
   menuItems: MenuItem[] = [
     { name: 'Espresso', description: 'Rich and bold, pulled to perfection', price: '$3.50', priceNum: 3.50, image: 'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&h=400&fit=crop', category: 'hot' },
     { name: 'Cappuccino', description: 'Velvety foam meets robust espresso', price: '$4.50', priceNum: 4.50, image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=400&fit=crop', category: 'hot' },
@@ -24,9 +44,32 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     { name: 'Affogato', description: 'Espresso poured over vanilla gelato', price: '$6.00', priceNum: 6.00, image: 'https://images.unsplash.com/photo-1579992357154-faf4bde95b3d?w=400&h=400&fit=crop', category: 'specialty' },
   ];
 
+  get filteredMenuItems(): MenuItem[] {
+    return this.menuItems.filter(item => {
+      const matchesCategory = this.activeCategory === 'all' || item.category === this.activeCategory;
+      const matchesSearch = !this.searchQuery || item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.setupStatsObserver();
+  }
+
+  ngOnDestroy(): void {
+    this.statsObserver?.disconnect();
+  }
+
   scrollTo(sectionId: string): void {
-    throw new Error('New error for sentry');
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  scrollToMenu(): void {
+    this.scrollTo('menu');
+  }
+
+  setCategory(key: string): void {
+    this.activeCategory = key;
   }
 
   openCustomizer(item: MenuItem) {
@@ -51,8 +94,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   private animateStats() {
     const fps = 60;
-    const steps = 2 * fps; // 2 seconds
-    this.stats.forEach(stat => {
+    const steps = 2 * fps;
+    this.stats.forEach((stat: StatCounter) => {
       const increment = stat.target / steps;
       let current = 0;
       const interval = setInterval(() => {
