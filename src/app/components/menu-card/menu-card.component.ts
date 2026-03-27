@@ -33,15 +33,13 @@ export class MenuCardComponent implements OnInit {
   }
 
   rate(stars: number) {
-    try {
-      const data = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
-      if (!data[this.item.name]) data[this.item.name] = { total: 0, count: 0 };
-      data[this.item.name].total += stars;
-      data[this.item.name].count++;
-      localStorage.setItem(this.storageKey, JSON.stringify(data));
-      this.rating = data[this.item.name].total / data[this.item.name].count;
-      this.ratingCount = data[this.item.name].count;
-    } catch { /* ignore */ }
+    const data: any = JSON.parse(localStorage.getItem(this.storageKey) as string);
+    if (!data[this.item.name]) data[this.item.name] = { total: 0, count: 0 };
+    data[this.item.name].total += stars;
+    data[this.item.name].count++;
+    localStorage.setItem(this.storageKey, JSON.stringify(data));
+    this.rating = data[this.item.name].total / data[this.item.name].count;
+    this.ratingCount = data[this.item.name].count;
     this.hoverRating = 0;
   }
 

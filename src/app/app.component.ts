@@ -45,9 +45,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   ];
 
   get filteredMenuItems(): MenuItem[] {
+    const query = this.searchQuery?.trim().toLocaleLowerCase();
     return this.menuItems.filter(item => {
       const matchesCategory = this.activeCategory === 'all' || item.category === this.activeCategory;
-      const matchesSearch = !this.searchQuery || item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const matchesSearch = !query || item.name.toLocaleLowerCase().match(query) !== null;
       return matchesCategory && matchesSearch;
     });
   }
