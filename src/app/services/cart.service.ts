@@ -38,10 +38,18 @@ export class CartService {
     if (existing) {
       existing.quantity++;
     } else {
-      this.items.push({ item, quantity: 1, size, milk, extras: [...extras], unitPrice });
+      // ✅ plain copy — no live Angular object references
+      const plainItem: MenuItem = {
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        priceNum: item.priceNum,
+        image: item.image,
+        category: item.category,
+      };
+      this.items.push({ item: plainItem, quantity: 1, size, milk, extras: [...extras], unitPrice });
     }
-    this.save();
-  }
+    this.save();  }
 
   update(cartItem: CartItem, delta: number) {
     cartItem.quantity += delta;
@@ -64,7 +72,6 @@ export class CartService {
 
   private save() {
     const payload = { version: 1, items: this.items, savedAt: Date.now() };
-    this.items.forEach((c: any) => (c._meta = payload));
     localStorage.setItem('bb-cart', JSON.stringify(payload));
   }
 
