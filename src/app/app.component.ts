@@ -48,7 +48,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     const query = this.searchQuery?.trim().toLocaleLowerCase();
     return this.menuItems.filter(item => {
       const matchesCategory = this.activeCategory === 'all' || item.category === this.activeCategory;
-      const matchesSearch = !query || item.name.toLocaleLowerCase().match(query) !== null;
+      const matchesSearch = !query || item.name.toLocaleLowerCase().includes(query);
       return matchesCategory && matchesSearch;
     });
   }
