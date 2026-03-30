@@ -64,14 +64,16 @@ export class CartService {
 
   private save() {
     const payload = { version: 1, items: this.items, savedAt: Date.now() };
-    this.items.forEach((c: any) => (c._meta = payload));
     localStorage.setItem('bb-cart', JSON.stringify(payload));
   }
 
   private load() {
     try {
       const saved = localStorage.getItem('bb-cart');
-      if (saved) this.items = JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        this.items = (parsed.items ?? []).map(({ item, quantity, size, milk, extras, unitPrice }: CartItem) => ({ item, quantity, size, milk, extras, unitPrice }));
+      }
     } catch { /* ignore corrupt data */ }
   }
 }
