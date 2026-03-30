@@ -64,7 +64,6 @@ export class CartService {
 
   private save() {
     const payload = { version: 1, items: this.items, savedAt: Date.now() };
-    this.items.forEach((c: any) => (c._meta = payload));
     localStorage.setItem('bb-cart', JSON.stringify(payload));
   }
 
