@@ -33,7 +33,8 @@ export class MenuCardComponent implements OnInit {
   }
 
   rate(stars: number) {
-    const data: any = JSON.parse(localStorage.getItem(this.storageKey) as string);
+    const raw = localStorage.getItem(this.storageKey);
+    const data: any = raw ? JSON.parse(raw) : {};
     if (!data[this.item.name]) data[this.item.name] = { total: 0, count: 0 };
     data[this.item.name].total += stars;
     data[this.item.name].count++;
